@@ -4,6 +4,9 @@ Notable changes are documented here. Version numbers follow Semantic Versioning.
 
 ## [Unreleased]
 
+### Added
+- A LINUX DO community link in the Chinese and English READMEs.
+
 ## [1.0.2]
 
 ### Added

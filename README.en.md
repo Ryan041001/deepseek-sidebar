@@ -81,6 +81,10 @@ No npm dependencies are required for these commands. Browser tests have separate
 
 See [Contributing](CONTRIBUTING.md), [Architecture](docs/ARCHITECTURE.md), [Testing](docs/TESTING.md), and the [Changelog](CHANGELOG.md). Report vulnerabilities according to [Security](SECURITY.md), not in public issue reports.
 
+## Community links
+
+- [LINUX DO](https://linux.do/) — A tech community.
+
 ## License
 
 Project code is available under the **[MIT License](LICENSE)**, including commercial use subject to its terms. This is an independent community project, not an official DeepSeek extension. Third-party trademarks and brand assets are not licensed by the code license; see [NOTICE](NOTICE.md).

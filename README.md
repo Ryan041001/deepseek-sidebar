@@ -128,6 +128,10 @@ npm run pack
 
 欢迎提交问题、文档改进和 Pull Request。开始前请阅读 [贡献指南](CONTRIBUTING.md)、[架构说明](docs/ARCHITECTURE.md) 和 [测试指南](docs/TESTING.md)。版本变化见 [CHANGELOG](CHANGELOG.md)，安全问题请参阅 [SECURITY](SECURITY.md)。
 
+## 友情链接
+
+- [LINUX DO](https://linux.do/) — 技术交流社区。
+
 ## 许可证与声明
 
 项目代码以 **[MIT License](LICENSE)** 开源，支持在遵守许可证的前提下使用、修改和分发，包括商业使用。
