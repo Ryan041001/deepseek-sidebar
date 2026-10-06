@@ -1,5 +1,5 @@
 // Optional Chromium smoke test, with a mocked website (no real login or chats).
-// PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node tests/browser-smoke.mjs
+// npm run test:browser (install Playwright first, or set PLAYWRIGHT_MODULE).
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, rm, readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -10,8 +10,7 @@ import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-if (!process.env.PLAYWRIGHT_MODULE) throw new Error("Set PLAYWRIGHT_MODULE to the installed Playwright index.mjs path.");
-const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : "playwright");
 const root = fileURLToPath(new URL("../", import.meta.url));
 const profile = await mkdtemp(join(tmpdir(), "deepseek-sidebar-profile-"));
 const artifacts = process.env.BROWSER_ARTIFACT_DIR || join(tmpdir(), "deepseek-sidebar-evidence");

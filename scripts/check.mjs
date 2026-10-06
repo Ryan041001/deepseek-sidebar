@@ -6,6 +6,9 @@ import { resolve } from "node:path";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const manifest = JSON.parse(await readFile(resolve(root, "manifest.json"), "utf8"));
+const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+assert.equal(pkg.version, manifest.version, "Package and extension versions must match.");
+assert.equal(pkg.license, "MIT");
 assert.equal(manifest.manifest_version, 3);
 assert.deepEqual(manifest.host_permissions, ["https://chat.deepseek.com/*"]);
 assert(!manifest.permissions.includes("tabs"));
@@ -14,6 +17,9 @@ assert.equal(manifest.side_panel.default_path, "sidepanel.html");
 const assets = new Set([
   "sidepanel.html", "sidepanel.css", "sidepanel.js", "shared.js", "content.js",
   manifest.background.service_worker, ...Object.values(manifest.icons),
+  "icons/icon.svg", "LICENSE", "NOTICE.md", "README.md", "README.en.md",
+  "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md",
+  "docs/PRIVACY.md", "docs/TESTING.md", "docs/ARCHITECTURE.md",
 ]);
 for (const path of assets) {
   await access(resolve(root, path));

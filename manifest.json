@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DeepSeek 小副屏",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "在 Chrome 原生侧边栏打开 DeepSeek 官网，将网页选中文字追加到输入框，不自动发送。",
   "minimum_chrome_version": "116",
   "permissions": [

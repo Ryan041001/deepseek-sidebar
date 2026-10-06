@@ -1,11 +1,11 @@
 // Real website diagnostic. Fresh profile only: never reads the user's cookies.
-// PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node tests/live-site.mjs
+// npm run test:live (install Playwright first, or set PLAYWRIGHT_MODULE).
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : "playwright");
 const root = fileURLToPath(new URL("../", import.meta.url));
 const profile = await mkdtemp(join(tmpdir(), "deepseek-live-profile-"));
 const artifacts = process.env.BROWSER_ARTIFACT_DIR || join(tmpdir(), "deepseek-live-evidence");

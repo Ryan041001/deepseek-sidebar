@@ -1,0 +1,51 @@
+name: Bug report / 问题反馈
+description: Report a reproducible problem with non-sensitive test data.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include cookies, tokens, account details, private chats, personal paths, or raw browser profiles.
+        Security issues belong in Security → Report a vulnerability, not public issues.
+  - type: input
+    id: version
+    attributes:
+      label: Extension version / 扩展版本
+      placeholder: "1.0.1"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Chrome version and OS type / Chrome 版本与操作系统类型
+      description: No usernames, serial numbers, or device identifiers.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps / 复现步骤
+      description: Use synthetic text, not real private content.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior / 预期与实际结果
+    validations:
+      required: true
+  - type: dropdown
+    id: official-tab
+    attributes:
+      label: Does the ordinary official tab work? / 普通官网标签页是否正常？
+      options:
+        - "Yes / 正常"
+        - "No / 同样异常"
+        - "Not checked / 未检查"
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics / 脱敏信息（可选）
+      description: Hide identity, account details, conversations, and authentication data.

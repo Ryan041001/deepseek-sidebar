@@ -1,12 +1,19 @@
 {
   "name": "deepseek-sidebar",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "The official DeepSeek web app in Chrome’s native side panel, with selection-to-draft support.",
+  "license": "MIT",
+  "keywords": ["chrome-extension", "deepseek", "side-panel", "manifest-v3"],
+  "engines": { "node": ">=22" },
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "check": "node scripts/check.mjs",
     "pack": "python3 scripts/package.py",
-    "icons": "node scripts/render-icons.mjs"
+    "icons": "node scripts/render-icons.mjs",
+    "audit:source": "node scripts/audit-source.mjs",
+    "test:browser": "node tests/browser-smoke.mjs",
+    "test:live": "node tests/live-site.mjs"
   }
 }
