@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="icons/icon.svg" width="88" height="88" alt="DeepSeek Sidebar 图标">
+<p align="center">
+  <img src="icons/icon.svg" width="88" height="88" alt="DeepSeek Sidebar 图标">
+</p>
 
 # DeepSeek Sidebar
 
@@ -34,6 +36,26 @@ DeepSeek Sidebar 是一个轻量、开源的 Chrome 扩展，将 **[chat.deepsee
 | **透明、可审查** | Manifest V3、零运行时第三方依赖，权限与数据流有明确说明 |
 
 > **验证状态：** 当前版本已通过实际 Chrome 环境的端到端使用验收，官网登录、侧栏聊天和消息收发正常；选中文字流程也已完成使用验证。自动化检查覆盖草稿保留、不自动发送、队列隔离及嵌入规则。验收说明与复现方法见 [测试文档](docs/TESTING.md)。
+
+## 功能示例
+
+### 一边阅读，一边问 DeepSeek
+
+阅读英文文章时，选中不熟悉的单词或句子，通过右键菜单或快捷键加入侧栏输入框。编辑草稿并自行发送后，即可继续追问词义、词源或句子结构，与原文并排查看。
+
+<p align="center">
+  <img src="docs/images/deepseek-sidebar-reading-cartoon.png" width="900" alt="阅读辅助示意：左侧阅读英文，选中文字加入右侧 DeepSeek 草稿，编辑后自行发送">
+</p>
+
+### 浏览网页时，让 DeepSeek 随时在旁
+
+查看 GitHub 仓库、阅读资料或写作时，都可以在 Chrome 原生侧栏中打开 DeepSeek 官方网页版，无需配置 API Key。需要讨论网页内容时，可主动选中文字加入草稿，或粘贴相关内容后提问。
+
+<p align="center">
+  <img src="docs/images/deepseek-sidebar-github-cartoon.png" width="900" alt="项目介绍示意：GitHub 仓库与 DeepSeek 侧栏并排显示，展示官方网页版、无需 API Key 和 MIT 开源特性">
+</p>
+
+*以上为卡通功能示意图，实际界面以 Chrome 与 DeepSeek 官网为准。*
 
 ## 快速开始
 
