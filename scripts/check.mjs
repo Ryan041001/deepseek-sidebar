@@ -17,7 +17,8 @@ assert.equal(manifest.side_panel.default_path, "sidepanel.html");
 const assets = new Set([
   "sidepanel.html", "sidepanel.css", "sidepanel.js", "shared.js", "content.js",
   manifest.background.service_worker, ...Object.values(manifest.icons),
-  "icons/icon.svg", "LICENSE", "NOTICE.md", "README.md", "README.en.md",
+  ...Object.values(manifest.action.default_icon),
+  "icons/icon.svg", "icons/sidebar.svg", "LICENSE", "NOTICE.md", "README.md", "README.en.md",
   "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md",
   "docs/PRIVACY.md", "docs/TESTING.md", "docs/ARCHITECTURE.md",
 ]);

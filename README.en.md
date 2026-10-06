@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="icons/icon.svg" width="88" height="88" alt="DeepSeek Sidebar icon">
+<p align="center">
+  <img src="icons/icon.svg" width="88" height="88" alt="DeepSeek Sidebar icon">
+</p>
 
 # DeepSeek Sidebar
 
@@ -43,6 +45,8 @@ Requires **Chrome 116+**; the latest stable version is recommended.
 No build step or npm installation is required. Keep the extracted folder in place while Chrome uses it. To update, replace its contents and reload the extension; save any unsent draft first.
 
 ## Use
+
+Click the <img src="icons/sidebar.svg" width="16" height="16" alt="sidebar icon"> in the toolbar to open the panel. The whale icon identifies the project and its entry in extension management; the simple sidebar icon makes the toolbar action easy to recognize at small sizes.
 
 Select text on a web page, right-click, and choose **添加到 DeepSeek 输入框（不发送）** (“Add to DeepSeek composer — do not send”). Review the text in the official composer and send it yourself.
 

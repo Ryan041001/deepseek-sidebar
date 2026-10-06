@@ -1,4 +1,4 @@
-"""Compatibility entry point: render the selected icons/icon.svg, not a new icon."""
+"""Compatibility entry point: render both selected SVG icon variants."""
 from pathlib import Path
 import subprocess
 

@@ -22,10 +22,10 @@
   "action": {
     "default_title": "打开 DeepSeek 小副屏",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icons/sidebar16.png",
+      "32": "icons/sidebar32.png",
+      "48": "icons/sidebar48.png",
+      "128": "icons/sidebar128.png"
     }
   },
   "icons": {

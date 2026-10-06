@@ -62,13 +62,22 @@ npm run test:live
 
 ## 图标
 
-`icons/icon.svg` 是源文件；Chrome 使用 16、32、48、128 四种 PNG。安装 Playwright 后运行：
+图标按用途分为两组；每组都有 16、32、48、128 四种 PNG，供 Chrome 使用：
+
+| 预览 | 源文件 | 用途 |
+| --- | --- | --- |
+| <img src="../icons/icon.svg" width="40" height="40" alt="小鲸鱼项目图标"> | `icons/icon.svg` | README 项目标识、扩展管理页与浏览器原生侧栏标题的扩展标识（`manifest.icons`） |
+| <img src="../icons/sidebar.svg" width="40" height="40" alt="简洁侧边栏图标"> | `icons/sidebar.svg` | 打开侧栏的工具栏按钮（`action.default_icon`）、使用指南入口 |
+
+修改对应 SVG 后，安装 Playwright 并运行以下命令，同时更新两组 PNG：
 
 ```sh
 npm run icons
 ```
 
-图标属于含第三方品牌元素的素材，见 [NOTICE](../NOTICE.md)。重新品牌化应替换 SVG 并生成 PNG。
+也可以通过 `PLAYWRIGHT_MODULE` 指定已有的 Playwright 模块，通过 `PLAYWRIGHT_EXECUTABLE_PATH` 指定已有的 Chromium 可执行文件。
+
+小鲸鱼项目图标含第三方品牌元素，见 [NOTICE](../NOTICE.md)。简洁侧边栏图标由项目绘制，不含鲸鱼品牌图形。重新品牌化时应替换含品牌元素的 SVG 并生成 PNG。
 
 ## 发布清单
 

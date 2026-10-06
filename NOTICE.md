@@ -5,6 +5,7 @@ DeepSeek Sidebar is an independent community project. It is not affiliated with,
 - Project code and project-authored documentation are provided under the MIT License.
 - “DeepSeek”, “Chrome”, and related third-party names and marks belong to their respective rights holders.
 - `icons/icon.svg` and its generated PNG files contain third-party brand imagery. They are not represented as an original project mark, and the MIT license does not grant rights to that third-party imagery or any trademark.
+- `icons/sidebar.svg` and its generated PNG files are project-authored geometric sidebar icons, provided under the MIT License.
 - No separate redistribution or commercial branding authorization for third-party imagery is asserted by this repository. Before redistributing or commercially branding a derivative, obtain the necessary rights or replace the icons with assets you are entitled to use.
 - The DeepSeek website, its content, and its services are not part of this repository's licensed software. Their respective terms and privacy policies apply.
 
