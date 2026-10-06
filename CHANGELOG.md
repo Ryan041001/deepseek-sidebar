@@ -4,10 +4,16 @@ Notable changes are documented here. Version numbers follow Semantic Versioning.
 
 ## [Unreleased]
 
+## [1.0.2]
+
+### Added
+- Illustrated reading and research examples in the README.
+- Separate sidebar icon assets alongside the whale icon.
+
 ### Changed
 - Simplified context-menu labels, shortcut descriptions, and error messages.
 - Revised Chinese and English documentation for clearer wording and privacy guidance.
-- Swapped the toolbar and side-panel title icons.
+- Assigned the whale icon to the toolbar and the sidebar icon to the panel title and extension management.
 
 ## [1.0.1]
 
