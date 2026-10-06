@@ -1,0 +1,12 @@
+{
+  "name": "deepseek-sidebar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node scripts/check.mjs",
+    "pack": "python3 scripts/package.py",
+    "icons": "node scripts/render-icons.mjs"
+  }
+}
