@@ -63,7 +63,7 @@
         throw new Error("待添加文字格式不正确。");
       }
       const editor = findEditor();
-      if (!editor) throw new Error("未找到可用的官网输入框，请先完成登录并打开对话。");
+      if (!editor) throw new Error("未找到 DeepSeek 输入框，请先在侧栏登录并打开对话。");
       editor.focus();
       let expected;
       if (editor instanceof HTMLTextAreaElement) {
@@ -85,7 +85,7 @@
         selection.removeAllRanges();
         selection.addRange(range);
         if (!document.execCommand("insertText", false, suffix)) {
-          throw new Error("官网的富文本输入框不接受添加，请手动粘贴。");
+          throw new Error("无法向此输入框添加文字，请手动粘贴。");
         }
       }
       // Allow controlled components to rerender, then check that the draft stuck.
@@ -98,7 +98,7 @@
       const retained = editor instanceof HTMLTextAreaElement
         ? actual === expected : normalizeRichText(actual) === normalizeRichText(expected);
       if (!retained) {
-        throw new Error("官网未保留添加的文字，请检查输入框后重试。");
+        throw new Error("输入框未保留添加的文字，请检查后重试。");
       }
       completed.add(entry.id);
       if (completed.size > 100) completed.delete(completed.values().next().value);

@@ -6,9 +6,9 @@
 
 # DeepSeek Sidebar
 
-**Keep DeepSeek beside your work, not behind another tab.**
+**Browse the web with DeepSeek alongside.**
 
-Use the official DeepSeek web app in Chrome's native side panel, with selected text just one action away.
+Open the official DeepSeek web app in Chrome's native side panel while reading, researching, or writing.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Chrome 116+](https://img.shields.io/badge/Chrome-116%2B-4285F4)
@@ -20,17 +20,17 @@ Use the official DeepSeek web app in Chrome's native side panel, with selected t
 
 ---
 
-## The official experience, alongside your workflow
+## Features
 
-DeepSeek Sidebar embeds **[chat.deepseek.com](https://chat.deepseek.com/)** in Chrome's native side panel. There is no replacement chat UI, third-party model API, or API key to configure. Accounts, models, history, and messaging remain part of the official website.
+DeepSeek Sidebar opens **[chat.deepseek.com](https://chat.deepseek.com/)** in Chrome's native side panel. It uses the website's chat interface and requires no API key. Accounts, models, history, and messaging are handled by the official website.
 
-- **A full-size official web app.** No custom toolbar or composer in the panel.
-- **Selected text in one action.** Send a selection to the official composer through the context menu or a keyboard shortcut.
-- **Your draft stays yours.** Text is appended in order, preserving existing content. Messages are never submitted automatically.
-- **Per-window queues.** Selections wait locally until a composer is available; retry and clear actions are in the extension icon's context menu.
+- **Official web app.** View DeepSeek and the current page side by side.
+- **Add selected text.** Use the context menu or a keyboard shortcut to add a selection to the official composer.
+- **Keep existing drafts.** Text is appended in order. Review and edit it before sending; the extension does not send messages automatically.
+- **Pending selections.** Text is stored locally per window until the composer is ready. Right-click the extension icon to retry or clear it.
 - **No extension backend or telemetry.** Zero third-party runtime dependencies, with documented permissions and data flow.
 
-**Validation status:** The current release has passed manual end-to-end acceptance in Chrome, including official-site login, side-panel messaging, and the selection workflow. Automated tests separately cover draft preservation, no automatic submission, queue isolation, and scoped embedding rules. See [Testing](docs/TESTING.md) for scope and reproduction.
+**Testing:** The current release has been tested in Chrome for login, messaging, and adding selected text. Automated tests cover draft preservation, no automatic sending, queue isolation, and embedding rules. See [Testing](docs/TESTING.md) for details.
 
 ## Install
 
@@ -46,9 +46,9 @@ No build step or npm installation is required. Keep the extracted folder in plac
 
 ## Use
 
-Click the <img src="icons/sidebar.svg" width="16" height="16" alt="sidebar icon"> in the toolbar to open the panel. The whale icon identifies the project and its entry in extension management; the simple sidebar icon makes the toolbar action easy to recognize at small sizes.
+Click the <img src="icons/icon.svg" width="16" height="16" alt="DeepSeek Sidebar icon"> in the toolbar to open the panel. Drag its edge to adjust the width; Chrome settings control which side it appears on.
 
-Select text on a web page, right-click, and choose **添加到 DeepSeek 输入框（不发送）** (“Add to DeepSeek composer — do not send”). Review the text in the official composer and send it yourself.
+Select text on a web page, right-click, and choose **添加到 DeepSeek 输入框** (“Add to DeepSeek composer”). Review and edit the text in the composer, then send it yourself.
 
 The default shortcut is **Alt + Shift + D**, or **Option + Shift + D** on macOS. Configure it at `chrome://extensions/shortcuts`. Extension-owned menu labels are currently in Simplified Chinese; the web app controls its own language.
 
@@ -58,13 +58,13 @@ Each window accepts up to 20 pending selections of up to 60,000 characters each.
 
 ## Privacy and security
 
-The extension does not collect credentials, create user accounts, or run analytics, ads, or a content proxy. Pending text is stored in local session storage. Once added to the official composer, website handling is governed by DeepSeek's policies.
+The extension does not collect credentials, create user accounts, or run analytics, ads, or a content proxy. Pending text is stored in local session storage. The website may read text once it is added to the composer, even before you send it. DeepSeek's privacy policy applies to that content.
 
 Persistent host access is restricted to `chat.deepseek.com`. Selection reading on other pages requires a user action.
 
-**Embedding trade-off:** The extension removes framing restrictions and CSP response headers from matching official-site subframes initiated by this extension. This weakens some protections for those embedded documents. Ordinary top-level tabs are outside the rule's scope. Review the [full permission and privacy documentation](docs/PRIVACY.md) before use.
+**Embedding security:** The extension removes framing restrictions and CSP response headers from matching official-site subframes initiated by this extension. This weakens some protections for those embedded documents. Ordinary top-level tabs are outside the rule's scope. Review the [full permission and privacy documentation](docs/PRIVACY.md) before use.
 
-Website changes, authentication policies, network restrictions, and browser cookie settings can affect compatibility. This project does not bypass CAPTCHA, rate limits, or access controls. Other Chromium-based browsers are not formal validation targets.
+Website changes, authentication policies, network restrictions, and browser cookie settings can affect compatibility. This project does not bypass CAPTCHA, rate limits, or access controls. Other Chromium-based browsers have not undergone formal compatibility testing for this project.
 
 ## Contribute
 

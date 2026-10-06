@@ -43,7 +43,7 @@ function deliver() {
   bridgeTimer = setTimeout(() => {
     if (!inFlight || inFlight.id !== entry.id) return;
     inFlight = undefined;
-    pause("未收到添加确认。请检查官网草稿：若文字已出现，请右键插件图标清空待添加；否则选择重试添加。");
+    pause("添加确认超时。请检查输入框：文字已添加时，右键扩展图标清空待添加文字；未添加时选择重试添加。");
   }, 6000);
 }
 
@@ -89,7 +89,7 @@ window.addEventListener("message", (event) => {
     } else {
       clearTimeout(bridgeTimer);
       inFlight = undefined;
-      pause(message.error || "无法写入官网输入框。待添加文字保留，可从插件图标右键菜单重试或清空。");
+      pause(message.error || "未能写入 DeepSeek 输入框。文字已保留，可右键扩展图标重试或清空。");
     }
   }
 });
@@ -100,7 +100,7 @@ frame.addEventListener("load", () => {
   if (inFlight) {
     clearTimeout(bridgeTimer);
     inFlight = undefined;
-    pause("官网在添加过程中发生跳转。请先检查草稿，再从插件图标右键菜单重试或清空，避免重复添加。");
+    pause("添加时官网发生跳转。请先检查输入框，再右键扩展图标重试或清空，避免重复添加。");
   }
   pingBridge();
 });

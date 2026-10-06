@@ -18,7 +18,7 @@ If private reporting is temporarily unavailable, open an issue that only request
 - Website-to-extension messages are checked against their origin, source, namespace, and session token.
 - The queue is exposed only to validated extension-side panel connections.
 - Selected text is appended as draft text, never automatically submitted.
-- The embedding rule removes framing and CSP response headers from matching official-site subframes initiated by the extension. This is a documented security trade-off, not equivalent to preserving the website's original CSP.
+- The embedding rule removes framing and CSP response headers from matching official-site subframes initiated by the extension. This reduces some security protections on those pages.
 - Browser tests can use a local HTTPS fixture and relaxed certificate validation in a disposable profile. Those test settings do not run in the installed extension.
 
 See [Privacy and permissions](docs/PRIVACY.md) for the complete data-flow description.

@@ -35,7 +35,7 @@ async function publish(windowId, state) {
   await chrome.action.setBadgeText({ text: error ? "!" : count ? String(count) : "" });
   await chrome.action.setTitle({
     title: error ? "DeepSeek 小副屏：" + error :
-      count ? "DeepSeek 小副屏：" + count + " 段文字待添加，请在官网登录 / 打开对话" :
+      count ? "DeepSeek 小副屏：" + count + " 段文字待添加，请在侧栏登录并打开对话" :
       "打开 DeepSeek 小副屏",
   });
 }
@@ -67,7 +67,7 @@ async function enqueue(windowId, selection) {
   await changeState(windowId, (state) => {
     const entries = state.queues[windowId] ?? [];
     if (entries.length >= MAX_QUEUE_LENGTH) {
-      throw new Error("已有 20 段文字等待添加，请先完成登录或清空队列。");
+      throw new Error("已有 20 段文字待添加，请在侧栏登录并打开对话，或清空待添加文字。");
     }
     state.queues[windowId] = [
       ...entries,
@@ -79,7 +79,7 @@ async function enqueue(windowId, selection) {
 
 async function addTabSelection(tab, windowId) {
   if (!Number.isInteger(tab?.id) || !/^https?:/.test(tab.url ?? "")) {
-    throw new Error("此页面不允许读取选中文字。请在普通网页使用右键菜单或快捷键。");
+    throw new Error("此页面不支持读取选中文字，请在普通网页中使用。");
   }
   let results;
   try {
@@ -88,7 +88,7 @@ async function addTabSelection(tab, windowId) {
       func: readActiveSelection,
     });
   } catch {
-    throw new Error("当前网页未授权或禁止脚本访问。请选中文字后使用右键菜单，或按 Alt+Shift+D；无需授予所有网站权限。");
+    throw new Error("无法读取当前网页的选中文字，请尝试用右键菜单添加。");
   }
   const selection = results.map(({ result }) => result).find((text) => text?.trim());
   await enqueue(windowId, selection);
@@ -111,12 +111,12 @@ chrome.runtime.onInstalled.addListener(() => {
     await configured;
     await chrome.contextMenus.removeAll();
     chrome.contextMenus.create({
-      id: MENU_ID, title: "添加到 DeepSeek 输入框（不发送）", contexts: ["selection"],
+      id: MENU_ID, title: "添加到 DeepSeek 输入框", contexts: ["selection"],
     });
     for (const [id, title] of [
-      ["open-deepseek-tab", "在标签页打开 DeepSeek 官网"],
-      ["retry-deepseek-queue", "重试添加待添加文字"],
-      ["clear-deepseek-queue", "清空本窗口待添加文字"],
+      ["open-deepseek-tab", "在新标签页打开 DeepSeek"],
+      ["retry-deepseek-queue", "重试添加"],
+      ["clear-deepseek-queue", "清空当前窗口待添加文字"],
     ]) chrome.contextMenus.create({ id, title, contexts: ["action"] });
   })().catch(console.error);
 });

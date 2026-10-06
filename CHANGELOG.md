@@ -4,6 +4,11 @@ Notable changes are documented here. Version numbers follow Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+- Simplified context-menu labels, shortcut descriptions, and error messages.
+- Revised Chinese and English documentation for clearer wording and privacy guidance.
+- Swapped the toolbar and side-panel title icons.
+
 ## [1.0.1]
 
 ### Added

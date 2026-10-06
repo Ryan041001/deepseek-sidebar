@@ -2,13 +2,13 @@
 
 ## 当前验证状态
 
-当前版本已完成实际 Chrome 环境的端到端使用验收：
+当前版本已在 Chrome 中完成实际使用测试：
 
-- 官方网页在原生侧栏内正常显示，无插件自制聊天界面。
+- 官网在原生侧栏中正常显示。
 - 官网账号登录与消息发送、接收正常。
 - 选中文字可进入官网原输入框，保留草稿且不自动发送。
 
-这是实际使用验收结论，不是把模拟测试视为真实账号聊天测试。项目未对所有浏览器、企业策略、网络环境或所有官方功能做兼容性认证。
+以上结论来自实际 Chrome 使用测试。下文的模拟测试用于验证扩展行为，不能代替真实账号的登录与聊天测试。测试尚未覆盖所有浏览器、企业策略、网络环境和官网功能。
 
 ## 基础检查
 
@@ -25,7 +25,7 @@ npm run pack
 
 - `check`：Manifest、权限边界、资源、语法、版本及纯 iframe 布局。
 - `test`：选择校验、菜单、队列隔离、并发、确认删除、来源校验、草稿追加、去重和失败路径。
-- `audit:source`：检查受版本控制的文件中常见本机主目录路径和凭据模式；不是完整的秘密检测或安全审计。
+- `audit:source`：检查受版本控制的文件中常见本机主目录路径和凭据模式，不能替代完整的凭据泄露检查或安全审计。
 - `pack`：白名单打包运行资源和公开文档，不包含测试、依赖、profile 或诊断产物。
 
 ## Chromium 集成测试
@@ -56,7 +56,7 @@ Linux CI 可用 `npx playwright install --with-deps chromium` 安装浏览器系
 npm run test:live
 ```
 
-这个脚本只检查官网加载、侧栏目标和合成存储探针，不填写凭据、不代为登录、不发送消息。它不作为 CI 的必过门禁，因为官网可用性和网络策略不由项目控制。
+这个脚本检查官网加载、侧栏地址和测试用存储数据，不填写凭据、登录账号或发送消息。官网状态和网络环境可能影响结果，因此未将它设为 CI 必须通过的检查。
 
 真实网页可能通过第三方登录组件显示身份信息。诊断 JSON、日志与截图一律保存在系统临时目录或显式指定的 `BROWSER_ARTIFACT_DIR` 中；不要未经审查上传，即使 profile 是新建的。
 
@@ -66,8 +66,8 @@ npm run test:live
 
 | 预览 | 源文件 | 用途 |
 | --- | --- | --- |
-| <img src="../icons/icon.svg" width="40" height="40" alt="小鲸鱼项目图标"> | `icons/icon.svg` | README 项目标识、扩展管理页与浏览器原生侧栏标题的扩展标识（`manifest.icons`） |
-| <img src="../icons/sidebar.svg" width="40" height="40" alt="简洁侧边栏图标"> | `icons/sidebar.svg` | 打开侧栏的工具栏按钮（`action.default_icon`）、使用指南入口 |
+| <img src="../icons/icon.svg" width="40" height="40" alt="小鲸鱼项目图标"> | `icons/icon.svg` | README 项目标识、打开侧栏的工具栏按钮（`action.default_icon`）、使用指南入口 |
+| <img src="../icons/sidebar.svg" width="40" height="40" alt="简洁侧边栏图标"> | `icons/sidebar.svg` | 扩展管理页与浏览器原生侧栏标题的扩展标识（`manifest.icons`） |
 
 修改对应 SVG 后，安装 Playwright 并运行以下命令，同时更新两组 PNG：
 

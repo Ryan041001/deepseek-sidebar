@@ -72,6 +72,12 @@ test("installs only the intended selection menu and scoped embedding rule", asyn
   f.chrome.runtime.onInstalled.emit();
   await flush();
   assert.equal(f.menus.length, 4);
+  assert.deepEqual(f.menus.map(({ title }) => title), [
+    "添加到 DeepSeek 输入框",
+    "在新标签页打开 DeepSeek",
+    "重试添加",
+    "清空当前窗口待添加文字",
+  ]);
   assert.deepEqual(f.menus[0].contexts, ["selection"]);
   assert(f.menus.slice(1).every((menu) => menu.contexts[0] === "action"));
   assert.equal(f.calls[0].rules.addRules[0].condition.initiatorDomains[0], "test-extension-id");
