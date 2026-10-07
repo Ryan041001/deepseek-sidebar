@@ -14,6 +14,9 @@ assert.deepEqual(manifest.host_permissions, ["https://chat.deepseek.com/*"]);
 assert(!manifest.permissions.includes("tabs"));
 assert(!manifest.permissions.includes("cookies"));
 assert.equal(manifest.side_panel.default_path, "sidepanel.html");
+assert.deepEqual(manifest.icons,
+  Object.fromEntries([16, 32, 48, 128].map((size) => [size, `icons/icon${size}.png`])),
+  "Chrome’s native context menu must use the whale icon.");
 const assets = new Set([
   "sidepanel.html", "sidepanel.css", "sidepanel.js", "shared.js", "content.js",
   manifest.background.service_worker, ...Object.values(manifest.icons),

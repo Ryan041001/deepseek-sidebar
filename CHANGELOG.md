@@ -7,6 +7,10 @@ Notable changes are documented here. Version numbers follow Semantic Versioning.
 ### Added
 - A LINUX DO community link in the Chinese and English READMEs.
 
+### Changed
+- Renamed the selected-text context menu to “deepseek一下”.
+- Reused the whale extension icon for the native context menu, extension management and panel title.
+
 ## [1.0.2]
 
 ### Added

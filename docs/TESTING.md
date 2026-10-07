@@ -62,12 +62,14 @@ npm run test:live
 
 ## 图标
 
-图标按用途分为两组；每组都有 16、32、48、128 四种 PNG，供 Chrome 使用：
+图标资源有两组；每组都有 16、32、48、128 四种 PNG：
 
 | 预览 | 源文件 | 用途 |
 | --- | --- | --- |
-| <img src="../icons/icon.svg" width="40" height="40" alt="小鲸鱼项目图标"> | `icons/icon.svg` | README 项目标识、打开侧栏的工具栏按钮（`action.default_icon`）、使用指南入口 |
-| <img src="../icons/sidebar.svg" width="40" height="40" alt="简洁侧边栏图标"> | `icons/sidebar.svg` | 扩展管理页与浏览器原生侧栏标题的扩展标识（`manifest.icons`） |
+| <img src="../icons/icon.svg" width="40" height="40" alt="小鲸鱼项目图标"> | `icons/icon.svg` | README 项目标识、工具栏按钮（`action.default_icon`）和扩展标识（`manifest.icons`），包括选中文字的原生右键菜单、扩展管理页与原生侧栏标题 |
+| <img src="../icons/sidebar.svg" width="40" height="40" alt="简洁侧边栏图标"> | `icons/sidebar.svg` | 保留的备用图标资源，当前未在 Manifest 中使用 |
+
+Chrome 原生右键菜单不能为单个菜单项指定图标，而是使用 `manifest.icons` 中的扩展图标。选中文字后应显示小鲸鱼图标和「deepseek一下」菜单；修改后在 `chrome://extensions` 重新加载扩展，再复核菜单。
 
 修改对应 SVG 后，安装 Playwright 并运行以下命令，同时更新两组 PNG：
 

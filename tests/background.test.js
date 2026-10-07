@@ -73,7 +73,7 @@ test("installs only the intended selection menu and scoped embedding rule", asyn
   await flush();
   assert.equal(f.menus.length, 4);
   assert.deepEqual(f.menus.map(({ title }) => title), [
-    "添加到 DeepSeek 输入框",
+    "deepseek一下",
     "在新标签页打开 DeepSeek",
     "重试添加",
     "清空当前窗口待添加文字",

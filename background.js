@@ -111,7 +111,7 @@ chrome.runtime.onInstalled.addListener(() => {
     await configured;
     await chrome.contextMenus.removeAll();
     chrome.contextMenus.create({
-      id: MENU_ID, title: "添加到 DeepSeek 输入框", contexts: ["selection"],
+      id: MENU_ID, title: "deepseek一下", contexts: ["selection"],
     });
     for (const [id, title] of [
       ["open-deepseek-tab", "在新标签页打开 DeepSeek"],
