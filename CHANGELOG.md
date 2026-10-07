@@ -4,6 +4,19 @@ Notable changes are documented here. Version numbers follow Semantic Versioning.
 
 ## [Unreleased]
 
+## [1.0.4]
+
+### Changed
+- The shortcut adds selected text without closing the panel; with no selection it toggles the panel without adding text.
+
+### Fixed
+- Close window-scoped panels with the native API on Chrome 141+, instead of ineffective tab-specific options.
+- Use global disable/restore on older Chrome versions; this fallback closes the extension's panels in all windows.
+- Start reading text-input selections before opening the panel can move focus.
+
+### Added
+- Real Chromium side-panel regression tests for selection, toggling, reopening, window isolation and the legacy fallback.
+
 ## [1.0.3]
 
 ### Added

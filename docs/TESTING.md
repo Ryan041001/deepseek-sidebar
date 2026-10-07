@@ -48,6 +48,10 @@ Linux CI 可用 `npx playwright install --with-deps chromium` 安装浏览器系
 - 多段草稿按序追加，不触发提交；
 - textarea 与 contenteditable 两种路径。
 
+随后运行 `tests/browser-shortcut.mjs`，用 Chromium 141+ 的真实原生侧栏验证无选区开关、选区追加、文本输入框选区、重新打开以及多窗口关闭隔离，并移除原生关闭方法以测试旧版兼容分支。脚本用 `runtime.getContexts()` 检查侧栏是否真的存在，不只检查 API 调用；结果保存在忽略提交的 `browser-evidence/shortcut-toggle/result.json`。
+
+快捷键测试只在临时扩展副本中增加模拟站点权限和按钮驱动，用真实用户手势调用生产代码的命令监听器；不修改生产扩展的权限。它不验证操作系统快捷键绑定或快捷键冲突，也不等于在每个旧版 Chrome 中完成兼容性验证。
+
 证书验证放宽只作用于该一次性模拟测试 profile。模拟页面、代理与证书均不属于扩展运行功能。不要用日常浏览器 profile 运行测试。
 
 ## 可选真实站点诊断

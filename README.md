@@ -85,6 +85,11 @@ DeepSeek Sidebar 是一个轻量、开源的 Chrome 扩展，将 **[chat.deepsee
 
 也可以使用 **Alt + Shift + D**；macOS 对应 **Option + Shift + D**。快捷键可在 `chrome://extensions/shortcuts` 中修改。
 
+- **有选中文字：** 打开侧栏并添加文字；侧栏已打开时继续添加，不会关闭。
+- **没有选中文字：** 只切换侧栏开关，不添加内容。
+
+Chrome 141+ 只关闭当前窗口的侧栏。Chrome 116–140 缺少原生关闭接口，兼容方案会同时关闭本扩展在其他窗口的侧栏，建议使用最新版 Chrome。
+
 ### 管理待添加文字
 
 右键点击**扩展图标**，可在新标签页打开 DeepSeek、重试添加，或清空当前窗口的待添加文字。

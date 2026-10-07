@@ -91,11 +91,15 @@ async function readTabSelection(tab) {
   return results.map(({ result }) => result).find((text) => text?.trim()) ?? "";
 }
 
-async function closePanel(tabId) {
-  // Side Panel has no close() method. Disabling it for the active tab closes
-  // the visible panel; re-enabling it leaves the panel closed.
-  await chrome.sidePanel.setOptions({ tabId, enabled: false });
-  await chrome.sidePanel.setOptions({ tabId, enabled: true });
+async function closePanel(windowId) {
+  if (typeof chrome.sidePanel.close === "function") {
+    await chrome.sidePanel.close({ windowId });
+    return;
+  }
+  // Chrome < 141: this is a global panel (opened with windowId), so tabId
+  // options do not close it. The legacy workaround affects all windows.
+  await chrome.sidePanel.setOptions({ enabled: false });
+  await chrome.sidePanel.setOptions({ enabled: true });
 }
 
 async function configure() {
@@ -153,16 +157,17 @@ chrome.commands.onCommand.addListener((command, tab) => {
   if (command !== "add-selection" || !Number.isInteger(tab?.windowId)) return;
   const windowId = tab.windowId;
   const wasOpen = Boolean(panelPorts.get(windowId)?.size);
-  const opening = openPanel(windowId);
-  void (async () => {
-    await opening;
-    const selection = await readTabSelection(tab);
+  // Start reading before opening can move focus away from a text input.
+  // Still open synchronously in the command's user gesture, without awaiting.
+  const reading = readTabSelection(tab);
+  const opening = wasOpen ? Promise.resolve() : openPanel(windowId);
+  void Promise.all([reading, opening]).then(async ([selection]) => {
     if (selection.trim()) {
       await enqueue(windowId, selection);
     } else if (wasOpen) {
-      await closePanel(tab.id);
+      await closePanel(windowId);
     }
-  })().catch((error) => reportError(windowId, error)).catch(console.error);
+  }).catch((error) => reportError(windowId, error)).catch(console.error);
 });
 
 chrome.runtime.onConnect.addListener((port) => {

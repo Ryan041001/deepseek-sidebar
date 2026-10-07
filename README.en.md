@@ -50,7 +50,9 @@ Click the <img src="icons/icon.svg" width="16" height="16" alt="DeepSeek Sidebar
 
 Select text on a web page, right-click, and choose **添加到 DeepSeek 输入框** (“Add to DeepSeek composer”). Review and edit the text in the composer, then send it yourself.
 
-The default shortcut is **Alt + Shift + D**, or **Option + Shift + D** on macOS. Configure it at `chrome://extensions/shortcuts`. Extension-owned menu labels are currently in Simplified Chinese; the web app controls its own language.
+The default shortcut is **Alt + Shift + D**, or **Option + Shift + D** on macOS. Configure it at `chrome://extensions/shortcuts`. With selected text, it opens the panel and adds the text (without closing an already open panel). Without a selection, it only toggles the panel.
+
+Chrome 141+ closes only the current window's panel. The Chrome 116–140 compatibility workaround closes this extension's panels in all windows; using the latest Chrome is recommended. Extension-owned menu labels are currently in Simplified Chinese; the web app controls its own language.
 
 Right-click the extension icon to open the official website in a tab, retry pending additions, or clear the current window's queue. The badge shows pending items; **!** indicates an error available in the icon tooltip.
 

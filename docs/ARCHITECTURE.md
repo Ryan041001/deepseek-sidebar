@@ -11,7 +11,7 @@ DeepSeek Sidebar 在浏览器侧栏中嵌入 DeepSeek 官网，使用官网的�
 | `manifest.json` | Manifest V3 声明、权限、快捷键与侧栏入口 |
 | `sidepanel.html` / `sidepanel.css` | 无自制可见控件的全尺寸 iframe |
 | `sidepanel.js` | 官网桥接握手、队列逐项投递与确认 |
-| `background.js` | 原生菜单、侧栏打开、会话队列和受限嵌入规则 |
+| `background.js` | 原生菜单、侧栏开关、会话队列和受限嵌入规则 |
 | `content.js` | 查找官网输入框、保留草稿并追加文字、不触发发送 |
 | `shared.js` | URL、长度上限、规则构造和选择读取 |
 | `scripts/` | 静态检查、源码审查、图标生成与打包 |
@@ -25,6 +25,10 @@ DeepSeek Sidebar 在浏览器侧栏中嵌入 DeepSeek 官网，使用官网的�
 4. 内容脚本与父容器通过带随机 token 的消息握手；双方验证 origin、source 和 namespace。
 5. 输入框就绪后顺序追加，官网草稿保留成功后返回确认。
 6. 后台收到 ACK 后删除对应队列项。
+
+快捷键有选区时打开侧栏并追加，没有选区时只切换开关。后台通过对应窗口的侧栏 Port 判断打开状态；读取选区请求在打开之前发起，但不等待它完成，以保留 `sidePanel.open()` 所需的用户手势。已打开时不重复调用打开接口。
+
+关闭时，Chrome 141+ 使用 `sidePanel.close({ windowId })`。旧版只能禁用并恢复全局侧栏，因而会关闭本扩展在所有窗口的侧栏；禁用某个 `tabId` 并不能关闭通过 `windowId` 打开的全局侧栏。
 
 同一文档内按已完成条目 ID 去重。页面跳转、进程终止或确认丢失时，无法保证每段文字只写入一次。添加失败后会暂停，由用户检查输入框，再选择重试或清空。
 

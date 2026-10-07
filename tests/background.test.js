@@ -9,7 +9,7 @@ function event() {
 async function flush() {
   for (let i = 0; i < 8; i++) await new Promise((done) => setImmediate(done));
 }
-async function fixture() {
+async function fixture({ nativeClose = true } = {}) {
   const data = {};
   const opened = [];
   const menus = [];
@@ -27,6 +27,7 @@ async function fixture() {
     sidePanel: {
       async setPanelBehavior(options) { calls.push({ behavior: options }); },
       async setOptions(options) { calls.push({ panelOptions: options }); },
+      close: nativeClose ? async ({ windowId }) => { calls.push({ close: windowId }); } : undefined,
       open({ windowId }) { opened.push(windowId); calls.push({ open: windowId }); return Promise.resolve(); },
     },
     action: { async setBadgeBackgroundColor() {}, async setBadgeText({ text }) { calls.push({ badge: text }); }, async setTitle({ title }) { calls.push({ title }); } },
@@ -121,14 +122,15 @@ test("website content scripts cannot connect to or acknowledge the selection que
   assert.equal(f.state().queues[1].length, 1);
 });
 
-test("shortcut opens panel before asynchronous selection reading", async () => {
+test("shortcut reads selection and opens synchronously, without reopening an existing panel", async () => {
   const f = await fixture();
   f.selection("快捷键原文");
   f.chrome.commands.onCommand.emit("add-selection", { id: 123, windowId: 3, url: "https://example.com/" });
+  assert.deepEqual(f.opened, [3], "open must not wait for the script promise");
   await flush();
   const userCalls = f.calls.filter((call) => call.open || call.script);
-  assert.equal(userCalls[0].open, 3);
-  assert.equal(userCalls[1].script.target.tabId, 123);
+  assert.equal(userCalls[0].script.target.tabId, 123);
+  assert.equal(userCalls[1].open, 3);
   assert.equal(f.state().queues[3][0].text, "快捷键原文");
 
   await f.panel(3);
@@ -136,7 +138,8 @@ test("shortcut opens panel before asynchronous selection reading", async () => {
   f.chrome.commands.onCommand.emit("add-selection", { id: 123, windowId: 3, url: "https://example.com/" });
   await flush();
   assert.deepEqual(f.state().queues[3].map(({ text }) => text), ["快捷键原文", "侧栏已打开时添加"]);
-  assert.equal(f.calls.some((call) => call.panelOptions), false);
+  assert.deepEqual(f.opened, [3]);
+  assert.equal(f.calls.some((call) => call.panelOptions || call.close), false);
 });
 
 test("shortcut toggles the panel without adding anything when there is no selection", async () => {
@@ -151,14 +154,63 @@ test("shortcut toggles the panel without adding anything when there is no select
   assert.equal(f.state().notices[3], undefined);
   assert.equal(f.calls.some((call) => call.panelOptions), false);
 
-  await f.panel(3);
+  const panel = await f.panel(3);
   f.chrome.commands.onCommand.emit("add-selection", tab);
   await flush();
   assert.equal(f.state().queues[3], undefined);
+  assert.deepEqual(f.opened, [3]);
+  assert.deepEqual(f.calls.filter((call) => call.close), [{ close: 3 }]);
+  assert.equal(f.calls.some((call) => call.panelOptions), false);
+
+  panel.port.disconnect();
+  f.chrome.commands.onCommand.emit("add-selection", tab);
+  await flush();
+  assert.deepEqual(f.opened, [3, 3]);
+  assert.equal(f.state().queues[3], undefined);
+});
+
+test("legacy Chrome closes the global panel, not a tab-specific panel", async () => {
+  const f = await fixture({ nativeClose: false });
+  f.selection(" \n\t");
+  await f.panel(3);
+  f.chrome.commands.onCommand.emit("add-selection", { id: 123, windowId: 3, url: "https://example.com/" });
+  await flush();
   assert.deepEqual(f.calls.filter((call) => call.panelOptions).map(({ panelOptions }) => panelOptions), [
-    { tabId: 123, enabled: false },
-    { tabId: 123, enabled: true },
+    { enabled: false },
+    { enabled: true },
   ]);
+  assert.deepEqual(f.opened, []);
+  assert.equal(f.state().queues[3], undefined);
+});
+
+test("native close targets only the command's window and preserves queued text", async () => {
+  const f = await fixture();
+  f.click("pending one", 1);
+  f.click("pending two", 2);
+  await flush();
+  await f.panel(1);
+  await f.panel(2);
+  f.selection("");
+  f.chrome.commands.onCommand.emit("add-selection", { id: 10, windowId: 1, url: "https://example.com/" });
+  await flush();
+  assert.deepEqual(f.calls.filter((call) => call.close), [{ close: 1 }]);
+  assert.deepEqual(f.state().queues[1].map(({ text }) => text), ["pending one"]);
+  assert.deepEqual(f.state().queues[2].map(({ text }) => text), ["pending two"]);
+});
+
+test("shortcut toggles unsupported pages without a selection error", async () => {
+  const f = await fixture();
+  const tab = { id: 123, windowId: 3, url: "chrome://newtab/" };
+  f.chrome.commands.onCommand.emit("add-selection", tab);
+  await flush();
+  await f.panel(3);
+  f.chrome.commands.onCommand.emit("add-selection", tab);
+  await flush();
+  assert.deepEqual(f.opened, [3]);
+  assert.deepEqual(f.calls.filter((call) => call.close), [{ close: 3 }]);
+  assert.equal(f.calls.some((call) => call.script), false);
+  assert.equal(f.state().queues[3], undefined);
+  assert.equal(f.state().notices[3], undefined);
 });
 
 test("denied selection access becomes an actionable notice, not a dropped queue", async () => {

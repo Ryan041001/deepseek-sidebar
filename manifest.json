@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DeepSeek 小副屏",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "在 Chrome 原生侧边栏使用 DeepSeek 官网，支持将网页选中文字添加到输入框。",
   "minimum_chrome_version": "116",
   "permissions": [
