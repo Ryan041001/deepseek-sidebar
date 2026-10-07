@@ -43,7 +43,7 @@
         "default": "Alt+Shift+D",
         "mac": "Alt+Shift+D"
       },
-      "description": "将选中文字添加到 DeepSeek 输入框"
+      "description": "将选中文字添加到 DeepSeek 输入框；无选区时切换侧栏"
     }
   },
   "content_scripts": [

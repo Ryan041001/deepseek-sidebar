@@ -26,6 +26,7 @@ async function fixture() {
     declarativeNetRequest: { async updateDynamicRules(rules) { calls.push({ rules }); } },
     sidePanel: {
       async setPanelBehavior(options) { calls.push({ behavior: options }); },
+      async setOptions(options) { calls.push({ panelOptions: options }); },
       open({ windowId }) { opened.push(windowId); calls.push({ open: windowId }); return Promise.resolve(); },
     },
     action: { async setBadgeBackgroundColor() {}, async setBadgeText({ text }) { calls.push({ badge: text }); }, async setTitle({ title }) { calls.push({ title }); } },
@@ -129,6 +130,35 @@ test("shortcut opens panel before asynchronous selection reading", async () => {
   assert.equal(userCalls[0].open, 3);
   assert.equal(userCalls[1].script.target.tabId, 123);
   assert.equal(f.state().queues[3][0].text, "快捷键原文");
+
+  await f.panel(3);
+  f.selection("侧栏已打开时添加");
+  f.chrome.commands.onCommand.emit("add-selection", { id: 123, windowId: 3, url: "https://example.com/" });
+  await flush();
+  assert.deepEqual(f.state().queues[3].map(({ text }) => text), ["快捷键原文", "侧栏已打开时添加"]);
+  assert.equal(f.calls.some((call) => call.panelOptions), false);
+});
+
+test("shortcut toggles the panel without adding anything when there is no selection", async () => {
+  const f = await fixture();
+  f.selection("");
+  const tab = { id: 123, windowId: 3, url: "https://example.com/" };
+
+  f.chrome.commands.onCommand.emit("add-selection", tab);
+  await flush();
+  assert.deepEqual(f.opened, [3]);
+  assert.equal(f.state().queues[3], undefined);
+  assert.equal(f.state().notices[3], undefined);
+  assert.equal(f.calls.some((call) => call.panelOptions), false);
+
+  await f.panel(3);
+  f.chrome.commands.onCommand.emit("add-selection", tab);
+  await flush();
+  assert.equal(f.state().queues[3], undefined);
+  assert.deepEqual(f.calls.filter((call) => call.panelOptions).map(({ panelOptions }) => panelOptions), [
+    { tabId: 123, enabled: false },
+    { tabId: 123, enabled: true },
+  ]);
 });
 
 test("denied selection access becomes an actionable notice, not a dropped queue", async () => {

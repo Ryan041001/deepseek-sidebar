@@ -77,10 +77,8 @@ async function enqueue(windowId, selection) {
   });
 }
 
-async function addTabSelection(tab, windowId) {
-  if (!Number.isInteger(tab?.id) || !/^https?:/.test(tab.url ?? "")) {
-    throw new Error("此页面不支持读取选中文字，请在普通网页中使用。");
-  }
+async function readTabSelection(tab) {
+  if (!Number.isInteger(tab?.id) || !/^https?:/.test(tab.url ?? "")) return "";
   let results;
   try {
     results = await chrome.scripting.executeScript({
@@ -90,8 +88,14 @@ async function addTabSelection(tab, windowId) {
   } catch {
     throw new Error("无法读取当前网页的选中文字，请尝试用右键菜单添加。");
   }
-  const selection = results.map(({ result }) => result).find((text) => text?.trim());
-  await enqueue(windowId, selection);
+  return results.map(({ result }) => result).find((text) => text?.trim()) ?? "";
+}
+
+async function closePanel(tabId) {
+  // Side Panel has no close() method. Disabling it for the active tab closes
+  // the visible panel; re-enabling it leaves the panel closed.
+  await chrome.sidePanel.setOptions({ tabId, enabled: false });
+  await chrome.sidePanel.setOptions({ tabId, enabled: true });
 }
 
 async function configure() {
@@ -147,10 +151,18 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.commands.onCommand.addListener((command, tab) => {
   if (command !== "add-selection" || !Number.isInteger(tab?.windowId)) return;
-  const opening = openPanel(tab.windowId);
-  void Promise.all([opening, addTabSelection(tab, tab.windowId)])
-    .catch((error) => reportError(tab.windowId, error))
-    .catch(console.error);
+  const windowId = tab.windowId;
+  const wasOpen = Boolean(panelPorts.get(windowId)?.size);
+  const opening = openPanel(windowId);
+  void (async () => {
+    await opening;
+    const selection = await readTabSelection(tab);
+    if (selection.trim()) {
+      await enqueue(windowId, selection);
+    } else if (wasOpen) {
+      await closePanel(tab.id);
+    }
+  })().catch((error) => reportError(windowId, error)).catch(console.error);
 });
 
 chrome.runtime.onConnect.addListener((port) => {
